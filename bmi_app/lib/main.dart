@@ -12,7 +12,7 @@ class BMICalulatoe extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFF0B0C10),
       ),
-      home: const InputPage(),
+      home: InputPage(),
     );
   }
 }
