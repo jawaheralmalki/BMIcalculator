@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-const contenttextstyle = TextStyle(fontSize: 18.0, color: Color(0xFF8D8E98));
+import 'kcontent.dart';
 
 class cardContent extends StatelessWidget {
   final IconData gender;
@@ -23,7 +22,7 @@ class cardContent extends StatelessWidget {
         ),
         Text(
           lable,
-          style: contenttextstyle,
+          style: kcontenttextstyle,
         )
       ],
     );

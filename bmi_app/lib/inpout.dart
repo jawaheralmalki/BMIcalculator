@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusablecard.dart';
 import 'cardcontentpage.dart';
-
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-const bottomHigdh = 80.0;
-const bouttomColor = Colors.red;
+import 'kcontent.dart';
 
 enum GenderType {
   male,
@@ -20,98 +16,201 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   GenderType? gender;
-
-  // Color maleCardColour = inactiveCardColor;
-  // Color femaleCardColour = inactiveCardColor;
-
-  // void updateColour(GenderType gander) {
-  //   if (gander == GenderType.male) {
-  //     if (maleCardColour == inactiveCardColor) {
-  //       maleCardColour = activeCardColor;
-  //       femaleCardColour = inactiveCardColor;
-  //     } else {
-  //       maleCardColour = inactiveCardColor;
-  //     }
-  //   }
-  //   if (gander == GenderType.female) {
-  //     if (femaleCardColour == inactiveCardColor) {
-  //       femaleCardColour = activeCardColor;
-  //       maleCardColour = inactiveCardColor;
-  //     } else {
-  //       femaleCardColour = inactiveCardColor;
-  //     }
-  //   }
-  // }
-
+  int height = 180;
+  int width = 60;
+  int age = 30;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0x141212),
       appBar: AppBar(
         title: const Text('BMI-CALCULATER'),
         backgroundColor: const Color(0xFF0B0C10),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    onPress: () {
                       setState(() {
                         gender = GenderType.male;
                       });
                     },
-                    child: ReusableCard(
-                      colour: gender == GenderType.male
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      cardwidget: const cardContent(
-                          gender: FontAwesomeIcons.mars, lable: "MEAL"),
-                    ),
+                    colour: gender == GenderType.male
+                        ? kactiveCardColor
+                        : kinactiveCardColor,
+                    cardwidget: const cardContent(
+                        gender: FontAwesomeIcons.mars, lable: "MEAL"),
                   ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    onPress: () {
                       setState(() {
                         gender = GenderType.female;
                       });
                     },
-                    child: ReusableCard(
-                      colour: gender == GenderType.female
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      cardwidget: const cardContent(
-                          gender: FontAwesomeIcons.venus, lable: "FEMALE"),
-                    ),
+                    colour: gender == GenderType.female
+                        ? kactiveCardColor
+                        : kinactiveCardColor,
+                    cardwidget: const cardContent(
+                        gender: FontAwesomeIcons.venus, lable: "FEMALE"),
                   ),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: ReusableCard(colour: activeCardColor),
+            child: ReusableCard(
+                colour: kactiveCardColor,
+                cardwidget: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "HEIGHT",
+                      style: kcontenttextstyle,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(height.toString(), style: kNumberColorStyle),
+                        const Text('cm', style: kcontenttextstyle),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: Colors.grey,
+                        thumbColor: const Color(0XFFEB1555),
+                        overlayColor: const Color(0x1fEB1555),
+                      ),
+                      child: Slider(
+                        value: height.toDouble(),
+                        min: 120,
+                        max: 220,
+                        onChanged: (double newValue) {
+                          setState(() {
+                            height = newValue.round();
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                )),
           ),
           Expanded(
             child: Row(
               children: [
-                Expanded(
-                  child: ReusableCard(colour: activeCardColor),
+                WidthandAge(
+                  num: width,
+                  onPresMunas: () {
+                    setState(() {
+                      width--;
+                    });
+                  },
+                  onPresPlus: () {
+                    setState(() {
+                      width++;
+                    });
+                  },
+                  requir: "WIDTH",
                 ),
-                Expanded(
-                  child: ReusableCard(colour: activeCardColor),
+                WidthandAge(
+                  num: age,
+                  onPresMunas: () {
+                    setState(() {
+                      age--;
+                    });
+                  },
+                  onPresPlus: () {
+                    setState(() {
+                      age++;
+                    });
+                  },
+                  requir: "AGE",
                 ),
               ],
             ),
           ),
           Container(
-            color: bouttomColor,
+            color: kbouttomColor,
             // width: double.infinity,
-            height: bottomHigdh,
+            height: kbottomHigdh,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustumButton extends StatelessWidget {
+  CustumButton({required this.onPressed, required this.icon});
+
+  final Function() onPressed;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      elevation: 6.0,
+      fillColor: const Color(0xFF111328),
+      shape: const CircleBorder(),
+      constraints: const BoxConstraints(minHeight: 60, minWidth: 60),
+      child: Icon(
+        icon,
+        color: Colors.white,
+      ),
+    );
+  }
+}
+
+class WidthandAge extends StatelessWidget {
+  WidthandAge(
+      {required this.num,
+      required this.onPresPlus,
+      required this.onPresMunas,
+      required this.requir});
+  final int num;
+  final Function() onPresPlus;
+  final Function() onPresMunas;
+  final String requir;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ReusableCard(
+        colour: kactiveCardColor,
+        cardwidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              requir,
+              style: kcontenttextstyle,
+            ),
+            Text(num.toString(), style: kNumberColorStyle),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustumButton(
+                  onPressed: onPresMunas,
+                  icon: FontAwesomeIcons.minus,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                CustumButton(
+                  onPressed: onPresPlus,
+                  icon: FontAwesomeIcons.plus,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
