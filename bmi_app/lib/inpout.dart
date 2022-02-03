@@ -1,8 +1,11 @@
+import 'package:bmi_app/result.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusablecard.dart';
 import 'cardcontentpage.dart';
 import 'kcontent.dart';
+import 'buttom_widget.dart';
+import 'calculator_brain.dart';
 
 enum GenderType {
   male,
@@ -23,7 +26,7 @@ class _InputPageState extends State<InputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI-CALCULATER'),
+        title: const Center(child: Text('BMI CALCULATER')),
         backgroundColor: const Color(0xFF0B0C10),
       ),
       body: Column(
@@ -137,10 +140,21 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: kbouttomColor,
-            // width: double.infinity,
-            height: kbottomHigdh,
+          buttom(
+            onPress: () {
+              CalculatorBrain calc =
+                  CalculatorBrain(height: height, weidht: width);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                          bmiResult: calc.calaulateBMI(),
+                          resultText: calc.getResult(),
+                          interpretation: calc.getInterpretation(),
+                        )),
+              );
+            },
+            textButton: "CALCULATOR",
           ),
         ],
       ),

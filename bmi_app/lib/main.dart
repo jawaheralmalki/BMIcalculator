@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'inpout.dart';
+import 'result.dart';
 
 void main() => runApp(const BMICalulatoe());
 
